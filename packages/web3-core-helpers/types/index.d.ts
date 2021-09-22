@@ -44,6 +44,10 @@ export class formatters {
 
     static outputTransactionFormatter(receipt: any): any;
 
+    static outputBundleHashFormatter(bundleHash: any): any;
+
+    static outputBundleFormatter(bundle: any): any;
+
     static outputTransactionReceiptFormatter(receipt: any): any;
 
     static inputLogFormatter(log: any): any;

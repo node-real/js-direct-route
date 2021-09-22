@@ -500,6 +500,26 @@ var Eth = function Eth() {
             abiCoder: abi
         }),
         new Method({
+            name: 'sendBundle',
+            call: 'eth_sendBundle',
+            params: 1,
+            inputFormatter: [null],
+            outputFormatter: formatter.outputBundleHashFormatter
+        }),
+        new Method({
+            name: 'getBundlePrice',
+            call: 'eth_bundlePrice',
+            params: 0,
+            outputFormatter: utils.hexToNumber
+        }),
+        new Method({
+            name: 'getBundleByHash',
+            call: 'txpool_getBundleByHash',
+            params: 1,
+            inputFormatter: [null],
+            outputFormatter: formatter.outputBundleFormatter
+        }),
+        new Method({
             name: 'sign',
             call: 'eth_sign',
             params: 2,

@@ -142,6 +142,24 @@ export interface TransactionConfig {
     hardfork?: string;
 }
 
+export interface SendBundleArgs {
+    txs: string[];
+    maxBlockNumber?: string;
+    minTimestamp?: number | string;
+    maxTimestamp?: number | string;
+    revertingTxHashes?: string[];
+}
+
+export interface Bundle {
+    txs: Transaction[];
+    maxBlockNumber?: string;
+    minTimestamp?: number | string;
+    maxTimestamp?: number | string;
+    revertingTxHashes?: string[];
+    hash?: string;
+    price?: number;
+}
+
 export type chain =
     | 'mainnet'
     | 'goerli'

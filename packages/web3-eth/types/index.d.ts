@@ -36,7 +36,9 @@ import {
     chain,
     BlockNumber,
     LogsOptions,
-    PastLogsOptions
+    PastLogsOptions,
+    SendBundleArgs,
+    Bundle
 } from 'web3-core';
 import {Subscription} from 'web3-core-subscriptions';
 import {AbiCoder} from 'web3-eth-abi';
@@ -303,6 +305,20 @@ export class Eth {
         transactionConfig: TransactionConfig,
         callback?: (error: Error, hash: string) => void
     ): PromiEvent<TransactionReceipt>;
+
+    sendBundle(
+        signedTransaction: SendBundleArgs,
+        callback?: (error: Error, hash: string) =>void
+    ): Promise<string>
+
+    getBundlePrice(
+        callback?: (error: Error, price: number) => void
+    ): Promise<number>
+
+    getBundleByHash(
+        bundleHash: string,
+        callback?: (error: Error, bundle: Bundle) => void
+    ): Promise<Bundle>;
 
     sendSignedTransaction(
         signedTransactionData: string,
