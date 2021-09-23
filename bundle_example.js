@@ -48,8 +48,8 @@ const sendBUSDByBundleDemo = async () => {
         'chainId': 56,
     };
 
-    const privateKey1 = '7711175292f1fc720b0e02b4e7c2aaf350630b5ef37d4003273e98eca897d45c';
-    const privateKey2 = 'bc9c3d9a5755b5409f6dbc81e4536fe9b045b402c316d08ac85d1de0c837c06a';
+    const privateKey1 = '';
+    const privateKey2 = '';
     const signedTx1 = await rpcClient.eth.accounts.signTransaction(tx1, privateKey1);
     const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey2);
 
