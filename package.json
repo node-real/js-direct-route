@@ -1,5 +1,5 @@
 {
-    "name": "web3.js",
+    "name": "@node-real/web3.js",
     "private": true,
     "description": "Ethereum JavaScript API wrapper repository",
     "license": "LGPL-3.0",
