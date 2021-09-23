@@ -21,8 +21,8 @@ const sendBUSDByBundleDemo = async () => {
     const contractAddr = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
     const contract = new rpcClient.eth.Contract(contractABI, contractAddr);
 
-    const account1 = '0x63AD164d03e5FceF787b3c482A5723a17CbcECD7';
-    const account2 = '0xd6d7e1c27D91F636678015e41Fcc65C3375A1178';
+    const account1 = '';
+    const account2 = '';
 
     const amount = 1e15;
     const data1 = contract.methods.transfer(account1, amount).encodeABI();
