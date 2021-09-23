@@ -1,5 +1,5 @@
 {
-    "name": "web3-core-requestmanager",
+    "name": "@node-real/web3-core-requestmanager",
     "version": "1.5.1",
     "description": "Web3 module to handle requests to external providers.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-core-requestmanager",
@@ -10,6 +10,9 @@
     "main": "lib/index.js",
     "scripts": {
         "compile": "tsc -b tsconfig.json"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "dependencies": {
         "util": "^0.12.0",

@@ -1,5 +1,5 @@
 {
-  "name": "web3-providers-ws",
+  "name": "@node-real/web3-providers-ws",
   "version": "1.5.1",
   "description": "Module to handle web3 RPC connections over WebSockets.",
   "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-providers-ws",
@@ -11,6 +11,9 @@
     "compile": "tsc -b tsconfig.json",
     "dtslint": "dtslint --localTs ../../node_modules/typescript/lib types"
   },
+    "publishConfig": {
+        "access": "public"
+    },
   "types": "types/index.d.ts",
   "main": "lib/index.js",
   "dependencies": {

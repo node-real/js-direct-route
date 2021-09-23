@@ -1,5 +1,5 @@
 {
-    "name": "web3-core-subscriptions",
+    "name": "@node-real/web3-core-subscriptions",
     "version": "1.5.1",
     "description": "Manages web3 subscriptions. This is an internal package.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-core-subscriptions",
@@ -16,6 +16,9 @@
     "dependencies": {
         "eventemitter3": "4.0.4",
         "web3-core-helpers": "1.5.1"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "devDependencies": {
         "dtslint": "^3.4.1",

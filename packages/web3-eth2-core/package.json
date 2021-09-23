@@ -1,5 +1,5 @@
 {
-    "name": "web3-eth2-core",
+    "name": "@node-real/web3-eth2-core",
     "version": "1.5.1",
     "description": "Web3 ETH2 core tools for sub-packages. This is an internal package.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-eth2-core",
@@ -17,6 +17,9 @@
     "main": "lib/index.js",
     "dependencies": {
         "axios": "^0.21.1"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.10",

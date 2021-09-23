@@ -1,5 +1,5 @@
 {
-    "name": "web3-eth-personal",
+    "name": "@node-real/web3-eth-personal",
     "version": "1.5.1",
     "description": "Web3 module to interact with the Ethereum blockchain accounts stored in the node.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-eth-personal",
@@ -11,6 +11,9 @@
     "scripts": {
         "compile": "tsc -b tsconfig.json",
         "dtslint": "dtslint --localTs ../../node_modules/typescript/lib types"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "main": "lib/index.js",
     "dependencies": {

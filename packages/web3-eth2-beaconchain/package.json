@@ -1,5 +1,5 @@
 {
-    "name": "web3-eth2-beaconchain",
+    "name": "@node-real/web3-eth2-beaconchain",
     "version": "1.5.1",
     "description": "Web3 ETH2 Beacon chain API wrappers.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-eth2-beaconchain",
@@ -13,6 +13,9 @@
         "compile": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
         "type-check": "tsc --noEmit",
         "type-check:watch": "npm run type-check -- --watch"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "main": "lib/index.js",
     "dependencies": {
