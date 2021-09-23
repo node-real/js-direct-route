@@ -1,118 +1,103 @@
 <p align="center">
   <img src="assets/logo/web3js.jpg" width="200" alt="web3.js" />
 </p>
+# NodeJs SDK of DirectRoute
 
-# web3.js - Ethereum JavaScript API
+## What is Direct Route 
 
-[![Gitter][gitter-image]][gitter-url] [![StackExchange][stackexchange-image]][stackexchange-url] [![NPM Package Version][npm-image-version]][npm-url] [![NPM Package Downloads][npm-image-downloads]][npm-url] [![Build Status][actions-image]][actions-url] [![Dev Dependency Status][deps-dev-image]][deps-dev-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Lerna][lerna-image]][lerna-url] [![Netlify Status][netlify-image]][netlify-url]
+NodeReal MEV is a permissionless, transparent service for efficient MEV extraction on EVM blockchains. It achieves following goals:
 
-This is the Ethereum [JavaScript API][docs]
-which connects to the [Generic JSON-RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC) spec.
-
-You need to run a local or remote [Ethereum](https://www.ethereum.org/) node to use this library.
-
-Please read the [documentation][docs] for more.
+1. **Transaction privacy**. Transactions submitted through MEV can never be detected by others before they have been included in a block.
+2. **First-price sealed-bid auction**. It allows users to privately communicate their bid and granular transaction order preference.
+3. **No paying for failed transactions**. Losing bids are never included in a block, thus never exposed to the public and no need to pay any transaction fees.
+4. **Bundle transactions**. Multiple transactions are submitted as a bundle, the bundle transactions are all successfully validated on chain in the same block or never included on chain at all.
+5. **Efficiency**. MEV extraction is performed without causing unnecessary network or chain congestion.
 
 ## Installation
 
 ### Node
 
 ```bash
-npm install web3
+npm install @node-real/web3
 ```
 
 ### Yarn
 
 ```bash
-yarn add web3
+yarn add @node-real/web3
 ```
-
-### In the Browser
-
-Use the prebuilt `dist/web3.min.js`, or
-build using the [web3.js][repo] repository:
 
 ```bash
 npm run build
 ```
 
-Then include `dist/web3.min.js` in your html file.
-This will expose `Web3` on the window object.
-
-Or via jsDelivr CDN:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-```
-
-UNPKG:
-
-```html
-<script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
-```
-
 ## Usage
 
-```js
-// In Node.js
-const Web3 = require('web3');
-
-let web3 = new Web3('ws://localhost:8546');
-console.log(web3);
-> {
-    eth: ... ,
-    shh: ... ,
-    utils: ...,
-    ...
-}
-```
-
-Additionally you can set a provider using `web3.setProvider()` (e.g. WebsocketProvider):
+Init Client
 
 ```js
-web3.setProvider('ws://localhost:8546');
-// or
-web3.setProvider(new Web3.providers.WebsocketProvider('ws://localhost:8546'));
+// Init client
+const Web3 = require('@node-real/web3');
+
+var directRouteEndPoint = "https://api.nodereal.io/direct-route";
+let web3 = new Web3(directRouteEndPoint);
 ```
 
-There you go, now you can use it:
+1, Query suggested bundle price
+`var price = await directClient.eth.getBundlePrice();`
+
+2, Send bundle 
 
 ```js
-web3.eth.getAccounts().then(console.log);
+const tx1 = {
+        'from': account1,
+        'to': account2,
+        'gas': 23000,
+        'gasPrice': price,
+        'data': rpcClient.utils.toHex(data1),
+        'chainId': 56,
+    };
+const tx2 = {
+    'from': account2,
+    'to': account1,
+    'gas': 23000,
+    'gasPrice': price,
+    'data': rpcClient.utils.toHex(data2),
+    'chainId': 56,
+};
+
+const privateKey1 = '';
+const privateKey2 = '';
+const signedTx1 = await rpcClient.eth.accounts.signTransaction(tx1, privateKey1);
+const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey2);
+
+var myDate = new Date();
+const maxTime = Math.floor(myDate.getTime() / 1000) + 80;
+const minTime = Math.floor(myDate.getTime() / 1000) + 20;
+
+console.log(maxTime, minTime);
+
+const bundleArgs = {
+    'txs': [signedTx1.rawTransaction, signedTx2.rawTransaction],
+    'minTimestamp': minTime,
+    'maxTimestamp': maxTime,
+    'revertingTxHashes': [signedTx2.transactionHash],
+};
+const bundleHash = await directClient.eth.sendBundle(bundleArgs);
 ```
 
-### Usage with TypeScript
+After the bundle is successfully submitted, you may need wait at lest 3-60 seconds before the transaction been verified on chain
 
-We support types within the repo itself. Please open an issue here if you find any wrong types.
+3, Query bundle
 
-You can use `web3.js` as follows:
+`const queryBundle = await directClient.eth.getBundleByHash(bundleHash);`
 
-```typescript
-import Web3 from 'web3';
-const web3 = new Web3('ws://localhost:8546');
-```
+## SDK example
 
-If you are using the types in a `commonjs` module, like in a Node app, you just have to enable `esModuleInterop` and `allowSyntheticDefaultImports` in your `tsconfig` for typesystem compatibility:
+1. `getBundlePriceDemo`. The bundle price is volatile according to the network congestion, the demo shows you how to get proper bundle price.
+2. `sendBUSDByBundleDemo`. In this case, we use two accounts to send BUSD to each other, the second transaction is allowed to be failed, and the bundle should be verified on chain during [now+20 second, now+80 second]. This case shows you how to interact with smart contract through direct-route, and how to control the timing to be verified.
 
-```js
-"compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    ....
-```
-
-## Trouble shooting and known issues.
-
-### Web3 and Angular
-If you are using Ionic/Angular at a version >5 you may run into a build error in which modules `crypto` and `stream` are `undefined`
-
-a work around for this is to go into your node-modules and at `/angular-cli-files/models/webpack-configs/browser.js` change  the `node: false` to `node: {crypto: true, stream: true}` as mentioned [here](https://github.com/ethereum/web3.js/issues/2260#issuecomment-458519127)
-
-Another variation of this problem was an issue opned on angular-cli: https://github.com/angular/angular-cli/issues/1548
-
-## Documentation
-
-Documentation can be found at [ReadTheDocs][docs].
+If you want to try with above examples, what you need to do is just to replace the private keys of `account1` and `account2` in `bundle_example.js`
 
 ## Building
 
@@ -127,65 +112,5 @@ sudo apt-get install nodejs
 sudo apt-get install npm
 ```
 
-### Building (webpack)
 
-Build the web3.js package:
 
-```bash
-npm run build
-```
-
-### Testing (mocha)
-
-```bash
-npm test
-```
-
-### Contributing
-
-Please follow the [Contribution Guidelines](./CONTRIBUTIONS.md) and [Review Guidelines](./REVIEW.md).
-
-This project adheres to the [Release Guidelines](./REVIEW.md).
-
-### Community
-
--   [Gitter][gitter-url]
--   [StackExchange][stackexchange-url]
-
-### Similar libraries in other languages
-
--   Haskell: [hs-web3](https://github.com/airalab/hs-web3)
--   Java: [web3j](https://github.com/web3j/web3j)
--   PHP: [web3.php](https://github.com/sc0Vu/web3.php)
--   Purescript: [purescript-web3](https://github.com/f-o-a-m/purescript-web3)
--   Python: [Web3.py](https://github.com/ethereum/web3.py)
--   Ruby: [ethereum.rb](https://github.com/EthWorks/ethereum.rb)
--   Scala: [web3j-scala](https://github.com/mslinn/web3j-scala)
-
-[repo]: https://github.com/ethereum/web3.js
-[docs]: http://web3js.readthedocs.io/
-[npm-image-version]: https://img.shields.io/npm/v/web3.svg
-[npm-image-downloads]: https://img.shields.io/npm/dm/web3.svg
-[npm-url]: https://npmjs.org/package/web3
-[actions-image]: https://github.com/ethereum/web3.js/workflows/Build/badge.svg
-[actions-url]: https://github.com/ethereum/web3.js/actions
-[deps-dev-image]: https://david-dm.org/ethereum/web3.js/1.x/dev-status.svg
-[deps-dev-url]: https://david-dm.org/ethereum/web3.js/1.x?type=dev
-[dep-dev-image]: https://david-dm.org/ethereum/web3.js/dev-status.svg
-[dep-dev-url]: https://david-dm.org/ethereum/web3.js#info=devDependencies
-[coveralls-image]: https://coveralls.io/repos/ethereum/web3.js/badge.svg?branch=1.x
-[coveralls-url]: https://coveralls.io/r/ethereum/web3.js?branch=1.x
-[waffle-image]: https://badge.waffle.io/ethereum/web3.js.svg?label=ready&title=Ready
-[waffle-url]: https://waffle.io/ethereum/web3.js
-[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
-[gitter-url]:  https://gitter.im/ethereum/web3.js
-[lerna-image]: https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg
-[lerna-url]: https://lerna.js.org/
-[netlify-image]: https://api.netlify.com/api/v1/badges/1fc64933-d170-4939-8bdb-508ecd205519/deploy-status
-[netlify-url]: https://app.netlify.com/sites/web3-staging/deploys
-[stackexchange-image]: https://img.shields.io/badge/web3js-stackexchange-brightgreen
-[stackexchange-url]: https://ethereum.stackexchange.com/questions/tagged/web3js
-
-## Semantic versioning
-
-This project follows [semver](https://semver.org/) as closely as possible **from version 1.3.0 onwards**. Earlier minor version bumps [might](https://github.com/ethereum/web3.js/issues/3758) have included breaking behavior changes.
