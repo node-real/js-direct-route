@@ -30,7 +30,7 @@ npm run build
 
 ## Usage
 
-Init Client
+1. Init Client
 
 ```js
 // Init client
@@ -40,10 +40,10 @@ var directRouteEndPoint = "https://api.nodereal.io/direct-route";
 let web3 = new Web3(directRouteEndPoint);
 ```
 
-1, Query suggested bundle price
-`var price = await directClient.eth.getBundlePrice();`
+2. Query suggested bundle price
+   `var price = await directClient.eth.getBundlePrice();`
 
-2, Send bundle 
+3. Send bundle 
 
 ```js
 const tx1 = {
@@ -94,7 +94,7 @@ After the bundle is successfully submitted, you may need wait at lest 3-60 secon
 1. `getBundlePriceDemo`. The bundle price is volatile according to the network congestion, the demo shows you how to get proper bundle price.
 2. `sendBUSDByBundleDemo`. In this case, we use two accounts to send BUSD to each other, the second transaction is allowed to be failed, and the bundle should be verified on chain during [now+20 second, now+80 second]. This case shows you how to interact with smart contract through direct-route, and how to control the timing to be verified.
 
-If you want to try with above examples, what you need to do is just to replace the private keys of `account1` and `account2` in `bundle_example.js`
+If you want to try with above examples, what you need to do is just to replace the account address of `account1` and `account2` in `bundle_example.js` and private keys of `privateKey1` and `privateKey2`.
 
 ## Building
 
