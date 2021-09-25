@@ -39,7 +39,7 @@ import {
     PastLogsOptions,
     SendBundleArgs,
     Bundle
-} from 'web3-core';
+} from '@node-real/web3-core';
 import {Subscription} from 'web3-core-subscriptions';
 import {AbiCoder} from 'web3-eth-abi';
 import {Accounts} from 'web3-eth-accounts';

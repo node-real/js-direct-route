@@ -54,8 +54,8 @@
     ],
     "dependencies": {
         "web3-bzz": "1.5.1",
-        "web3-core": "1.5.1",
-        "web3-eth": "1.5.1",
+        "@node-real/web3-core": "1.0.1",
+        "@node-real/web3-eth": "1.0.1",
         "web3-eth-personal": "1.5.1",
         "web3-net": "1.5.1",
         "web3-shh": "1.5.1",
@@ -65,6 +65,6 @@
         "@types/node": "^12.12.6",
         "dtslint": "^3.4.1",
         "typescript": "^3.9.5",
-        "web3-core-helpers": "1.5.1"
+        "@node-real/web3-core-helpers": "1.0.1"
     }
 }

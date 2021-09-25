@@ -17,8 +17,8 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "web3-core": "1.5.1",
-        "web3-core-helpers": "1.5.1",
+        "@node-real/web3-core": "1.0.1",
+        "@node-real/web3-core-helpers": "1.0.1",
         "web3-core-method": "1.5.1",
         "web3-core-subscriptions": "1.5.1",
         "web3-eth-abi": "1.5.1",
