@@ -85,7 +85,7 @@ const bundleHash = await directClient.eth.sendBundle(bundleArgs);
 
 After the bundle is successfully submitted, you may need wait at lest 3-60 seconds before the transaction been verified on chain
 
-3, Query bundle
+4. Query bundle
 
 `const queryBundle = await directClient.eth.getBundleByHash(bundleHash);`
 
