@@ -21,8 +21,8 @@ const sendBUSDByBundleDemo = async () => {
     const contractAddr = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
     const contract = new rpcClient.eth.Contract(contractABI, contractAddr);
 
-    const account1 = '';
-    const account2 = '';
+    const account1 = 'input the address of account1';
+    const account2 = 'input the address of account2';
 
     const amount = 1e15;
     const data1 = contract.methods.transfer(account1, amount).encodeABI();
@@ -32,8 +32,8 @@ const sendBUSDByBundleDemo = async () => {
 
     const tx1 = {
         'from': account1,
-        'to': account2,
-        'gas': 23000,
+        'to': contractAddr,
+        'gas': 70000,
         'gasPrice': price,
         'data': rpcClient.utils.toHex(data1),
         'chainId': 56,
@@ -41,15 +41,15 @@ const sendBUSDByBundleDemo = async () => {
 
     const tx2 = {
         'from': account2,
-        'to': account1,
-        'gas': 23000,
+        'to': contractAddr,
+        'gas': 70000,
         'gasPrice': price,
         'data': rpcClient.utils.toHex(data2),
         'chainId': 56,
     };
 
-    const privateKey1 = '';
-    const privateKey2 = '';
+    const privateKey1 = 'input your private of account1';
+    const privateKey2 = 'input your private of account2';
     const signedTx1 = await rpcClient.eth.accounts.signTransaction(tx1, privateKey1);
     const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey2);
 
