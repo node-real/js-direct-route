@@ -160,6 +160,13 @@ export interface Bundle {
     price?: number;
 }
 
+export interface ValidatorStatus {
+    status: number;
+    validators: {
+        [validator_name: string]: number;
+    }
+}
+
 export type chain =
     | 'mainnet'
     | 'goerli'

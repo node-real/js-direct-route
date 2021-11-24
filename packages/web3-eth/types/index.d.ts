@@ -38,7 +38,8 @@ import {
     LogsOptions,
     PastLogsOptions,
     SendBundleArgs,
-    Bundle
+    Bundle,
+    ValidatorStatus
 } from '@node-real/web3-core';
 import {Subscription} from 'web3-core-subscriptions';
 import {AbiCoder} from 'web3-eth-abi';
@@ -319,6 +320,10 @@ export class Eth {
         bundleHash: string,
         callback?: (error: Error, bundle: Bundle) => void
     ): Promise<Bundle>;
+
+    getValidatorStatus(
+        callback?: (error: Error, status: ValidatorStatus) => void
+    ): Promise<ValidatorStatus>;
 
     sendSignedTransaction(
         signedTransactionData: string,

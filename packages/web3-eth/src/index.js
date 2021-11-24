@@ -520,6 +520,12 @@ var Eth = function Eth() {
             outputFormatter: formatter.outputBundleFormatter
         }),
         new Method({
+            name: 'getValidatorStatus',
+            call: 'eth_validatorStatus',
+            params: 0,
+            outputFormatter: formatter.outputStatusFormatter
+        }),
+        new Method({
             name: 'sign',
             call: 'eth_sign',
             params: 2,
