@@ -87,12 +87,17 @@ After the bundle is successfully submitted, you may need wait at lest 3-60 secon
 
 4. Query bundle
 
-`const queryBundle = await directClient.eth.getBundleByHash(bundleHash);`
+   `const queryBundle = await directClient.eth.getBundleByHash(bundleHash);`
+
+5. Get Status of Validators
+
+   `var status = await directClient.eth.getValidatorStatus();`
 
 ## SDK example
 
 1. `getBundlePriceDemo`. The bundle price is volatile according to the network congestion, the demo shows you how to get proper bundle price.
-2. `sendBUSDByBundleDemo`. In this case, we use two accounts to send BUSD to each other, the second transaction is allowed to be failed, and the bundle should be verified on chain during [now+20 second, now+80 second]. This case shows you how to interact with smart contract through direct-route, and how to control the timing to be verified.
+2. `getValidatorsStatusDemo`. The demo shows how to get status of Validators.
+3. `sendBUSDByBundleDemo`. In this case, we use two accounts to send BUSD to each other, the second transaction is allowed to be failed, and the bundle should be verified on chain during [now+20 second, now+80 second]. This case shows you how to interact with smart contract through direct-route, and how to control the timing to be verified.
 
 If you want to try with above examples, what you need to do is just to replace the account address of `account1` and `account2` in `bundle_example.js` and private keys of `privateKey1` and `privateKey2`.
 

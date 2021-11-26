@@ -1,10 +1,7 @@
-const Web3 = require('./packages/web3/src/index');
+const Web3 = require('@node-real/web3');
 
-//const directRouteEndPoint = "https://api.nodereal.io/direct-route";
-
-// testnet
-const directRouteEndPoint = "https://testnet-api.binance.org/bsc-relay"
-const rpcEndPoint = "https://bsc-dataseed.binance.org";
+const directRouteEndPoint = "input the direct route endpoint";
+const rpcEndPoint = "input the rpc endpoint";
 
 const getBundlePriceDemo = async () => {
     const directClient = new Web3(directRouteEndPoint);
@@ -18,7 +15,7 @@ const getValidatorsStatusDemo = async () => {
     var status = await directClient.eth.getValidatorStatus();
     console.log(status)
 }
-getValidatorsStatusDemo()
+getValidatorsStatusDemo();
 
 const sendBUSDByBundleDemo = async () => {
     const directClient = new Web3(directRouteEndPoint);
