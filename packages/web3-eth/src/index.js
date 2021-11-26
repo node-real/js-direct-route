@@ -25,7 +25,7 @@
 var core = require('@node-real/web3-core');
 var helpers = require('@node-real/web3-core-helpers');
 var Subscriptions = require('web3-core-subscriptions').subscriptions;
-var Method = require('web3-core-method');
+var Method = require('@node-real/web3-core-method');
 var utils = require('web3-utils');
 var Net = require('web3-net');
 

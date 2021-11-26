@@ -180,7 +180,7 @@ Method.prototype.formatOutput = function (result) {
 Method.prototype.toPayload = function (args) {
     var call = this.getCall(args);
     var callback = this.extractCallback(args);
-    
+
     var params = this.formatInput(args);
     this.validateArgs(params);
 
@@ -690,7 +690,7 @@ Method.prototype.buildCall = function () {
         // SENDS the SIGNED SIGNATURE
         var sendSignedTx = function (sign) {
 
-            var signedPayload = { ... payload, 
+            var signedPayload = { ... payload,
                 method: 'eth_sendRawTransaction',
                 params: [sign.rawTransaction]
             };
@@ -766,6 +766,12 @@ Method.prototype.buildCall = function () {
                 }
             }
 
+            if (payload.method === "eth_sendBundle") {
+                // modify request header
+                const headers = method.requestManager?.provider?.headers || [];
+                const newHeaders = [...headers, { name: 'Request-Source', value: '3' }]
+                method.requestManager.provider.headers = newHeaders
+            }
 
             return method.requestManager.send(payload, sendTxCallback);
         };
@@ -782,7 +788,7 @@ Method.prototype.buildCall = function () {
                 )
             )
         ) {
-            if (typeof payload.params[0].type === 'undefined') 
+            if (typeof payload.params[0].type === 'undefined')
                 payload.params[0].type = _handleTxType(payload.params[0]);
 
             _handleTxPricing(method, payload.params[0]).then(txPricing => {
@@ -848,7 +854,7 @@ function _handleTxType(tx) {
         throw Error("eip-1559 transactions don't support gasPrice");
     if ((txType === '0x1' || txType === '0x0') && hasEip1559)
         throw Error("pre-eip-1559 transaction don't support maxFeePerGas/maxPriorityFeePerGas");
-    
+
     if (
         hasEip1559 ||
         (
@@ -866,7 +872,7 @@ function _handleTxType(tx) {
     ) {
         txType = '0x1';
     }
-    
+
     return txType
 }
 
@@ -903,10 +909,10 @@ function _handleTxPricing(method, tx) {
                         block && block.baseFeePerGas
                     ) {
                         // The network supports EIP-1559
-    
+
                         // Taken from https://github.com/ethers-io/ethers.js/blob/ba6854bdd5a912fe873d5da494cb5c62c190adde/packages/abstract-provider/src.ts/index.ts#L230
                         let maxPriorityFeePerGas, maxFeePerGas;
-    
+
                         if (tx.gasPrice) {
                             // Using legacy gasPrice property on an eip-1559 network,
                             // so use gasPrice as both fee properties
