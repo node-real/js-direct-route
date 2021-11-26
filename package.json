@@ -19,7 +19,7 @@
         "postinstall": "npm run bootstrap",
         "build": "npm run bootstrap && lerna run compile && webpack && cp -r ./dist ./packages/web3",
         "publish": "lerna publish",
-        "bootstrap": "lerna bootstrap",
+        "bootstrap": "lerna bootstrap && lerna link",
         "lint": "jshint *.js packages",
         "test": "mocha -R spec --require ts-node/register --grep E2E --invert",
         "test:unit": "nyc --no-clean --silent _mocha -- -R spec --require ts-node/register --grep E2E --invert --exit",
