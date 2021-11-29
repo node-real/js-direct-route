@@ -768,7 +768,8 @@ Method.prototype.buildCall = function () {
 
             if (payload.method === "eth_sendBundle") {
                 // modify request header
-                const headers = method.requestManager?.provider?.headers || [];
+                const provider = method.requestManager.provider
+                const headers = (provider && provider.headers) || [];
                 const newHeaders = [...headers, { name: 'Request-Source', value: '3' }]
                 method.requestManager.provider.headers = newHeaders
             }
