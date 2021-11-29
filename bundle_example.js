@@ -1,7 +1,7 @@
 const Web3 = require('@node-real/web3');
 
-const directRouteEndPoint = "input the direct route endpoint";
-const rpcEndPoint = "input the rpc endpoint";
+const directRouteEndPoint = "https://api.nodereal.io/direct-route";
+const rpcEndPoint = "https://bsc-dataseed.binance.org";
 
 const getBundlePriceDemo = async () => {
     const directClient = new Web3(directRouteEndPoint);
