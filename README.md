@@ -10,6 +10,14 @@ NodeReal MEV is a permissionless, transparent service for efficient MEV extracti
 4. **Bundle transactions**. Multiple transactions are submitted as a bundle, the bundle transactions are all successfully validated on chain in the same block or never included on chain at all.
 5. **Efficiency**. MEV extraction is performed without causing unnecessary network or chain congestion.
 
+## Deposit coinbase contract
+
+If you want to increase your *Bundle Price*, you can use this contract, which will transfer your provided *BNB* to the coinbase responsible for mining your bundle.
+please refer the `sendBNBByBundleWithDepositCoinbaseDemo()` in example.go.
+
+1. mainnet: `0xB3BB00B9785f35D0BE13B2BD91C8e3742D9Ab03a`
+2. testnet: `0xE7febD44315508a1100E1a06701e7e0Ae5e325Bc`
+
 ## Installation
 
 ### Node
@@ -41,19 +49,25 @@ let web3 = new Web3(directRouteEndPoint);
 ```
 
 2. Query suggested bundle price
-   `var price = await directClient.eth.getBundlePrice();`
+```js
+const bundlePrice = await  directClient.eth.getBundlePrice();
+var price = bundlePrice.minimalGasPrice;
+if (price < bundlePrice.bundlePrice) {
+    price = bundlePrice.bundlePrice;
+}
+```
 
 3. Send bundle 
 
 ```js
 const tx1 = {
-        'from': account1,
-        'to': account2,
-        'gas': 23000,
-        'gasPrice': price,
-        'data': rpcClient.utils.toHex(data1),
-        'chainId': 56,
-    };
+    'from': account1,
+    'to': account2,
+    'gas': 23000,
+    'gasPrice': price,
+    'data': rpcClient.utils.toHex(data1),
+    'chainId': 56,
+};
 const tx2 = {
     'from': account2,
     'to': account1,
@@ -98,6 +112,9 @@ After the bundle is successfully submitted, you may need wait at lest 3-60 secon
 1. `getBundlePriceDemo`. The bundle price is volatile according to the network congestion, the demo shows you how to get proper bundle price.
 2. `getValidatorsStatusDemo`. The demo shows how to get status of Validators.
 3. `sendBUSDByBundleDemo`. In this case, we use two accounts to send BUSD to each other, the second transaction is allowed to be failed, and the bundle should be verified on chain during [now+20 second, now+80 second]. This case shows you how to interact with smart contract through direct-route, and how to control the timing to be verified.
+4. `sendBNBByBundleWithDepositCoinbaseDemo()`. In this case, we use two different 
+accounts to send BNB to each other, and including deposit BNB to coinbase to increase *Bundle Price* the two transactions should be all 
+successful or all failed.
 
 If you want to try with above examples, what you need to do is just to replace the account address of `account1` and `account2` in `bundle_example.js` and private keys of `privateKey1` and `privateKey2`.
 
