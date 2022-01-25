@@ -30,7 +30,7 @@ const sendBUSDByBundleDemo = async () => {
     const account2 = 'input the address of account2';
 
     const amount = 1e15;
-    const data1 = contract.methods.transfer(account1, amount).encodeABI();
+    const data1 = contract.methods.transfer(account2, amount).encodeABI();
     const data2 = contract.methods.transfer(account2, amount).encodeABI();
 
     const price = await  directClient.eth.getBundlePrice();
@@ -45,7 +45,7 @@ const sendBUSDByBundleDemo = async () => {
     };
 
     const tx2 = {
-        'from': account2,
+        'from': account1,
         'to': contractAddr,
         'gas': 70000,
         'gasPrice': price,
@@ -56,7 +56,7 @@ const sendBUSDByBundleDemo = async () => {
     const privateKey1 = 'input your private of account1';
     const privateKey2 = 'input your private of account2';
     const signedTx1 = await rpcClient.eth.accounts.signTransaction(tx1, privateKey1);
-    const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey2);
+    const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey1);
 
     var myDate = new Date();
     const maxTime = Math.floor(myDate.getTime() / 1000) + 80;
