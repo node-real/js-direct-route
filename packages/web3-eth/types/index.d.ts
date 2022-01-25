@@ -39,6 +39,7 @@ import {
     PastLogsOptions,
     SendBundleArgs,
     Bundle,
+    BundlePrice,
     ValidatorStatus
 } from '@node-real/web3-core';
 import {Subscription} from 'web3-core-subscriptions';
@@ -309,12 +310,12 @@ export class Eth {
 
     sendBundle(
         signedTransaction: SendBundleArgs,
-        callback?: (error: Error, hash: string) =>void
+        callback?: (error: Error, hash: string) => void
     ): Promise<string>
 
     getBundlePrice(
-        callback?: (error: Error, price: number) => void
-    ): Promise<number>
+        callback?: (error: Error, bundlePrice: BundlePrice) => void
+    ): Promise<BundlePrice>
 
     getBundleByHash(
         bundleHash: string,
