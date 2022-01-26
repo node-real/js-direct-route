@@ -48,6 +48,8 @@ export class formatters {
 
     static outputBundleFormatter(bundle: any): any;
 
+    static outputBundlePriceFormatter(bundlePrice: any): any;
+
     static outputStatusFormatter(status: any): any;
 
     static outputTransactionReceiptFormatter(receipt: any): any;

@@ -33,7 +33,11 @@ const sendBUSDByBundleDemo = async () => {
     const data1 = contract.methods.transfer(account2, amount).encodeABI();
     const data2 = contract.methods.transfer(account2, amount).encodeABI();
 
-    const price = await  directClient.eth.getBundlePrice();
+    const bundlePrice = await  directClient.eth.getBundlePrice();
+    var price = bundlePrice.minimalGasPrice;
+    if (price < bundlePrice.bundlePrice) {
+        price = bundlePrice.bundlePrice;
+    }
 
     const tx1 = {
         'from': account1,
@@ -98,3 +102,92 @@ const sendBUSDByBundleDemo = async () => {
     }
 };
 sendBUSDByBundleDemo();
+
+const sendBNBByBundleWithDepositCoinbaseDemo = async () => {
+    const directClient = new Web3(directRouteEndPoint);
+    const rpcClient = new Web3(rpcEndPoint);
+
+    var contractABI = "[{\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}]"
+    contractABI = JSON.parse(contractABI);
+    const contractAddr = "0xB3BB00B9785f35D0BE13B2BD91C8e3742D9Ab03a";
+    const contract = new rpcClient.eth.Contract(contractABI, contractAddr);
+
+    const account1 = 'input the address of account1';
+    const account2 = 'input the address of account2';
+
+    var nonce = await rpcClient.eth.getTransactionCount(account1, 'pending')
+    const deposit = 1e10;
+    const amount = 1e15;
+    const data1 = contract.methods.deposit().encodeABI();
+
+    const bundlePrice = await  directClient.eth.getBundlePrice();
+    var price = bundlePrice.minimalGasPrice;
+    if (price < bundlePrice.bundlePrice) {
+        price = bundlePrice.bundlePrice;
+    }
+    
+    const tx1 = {
+        'from': account1,
+        'to': contractAddr,
+        'gas': 70000,
+        'nonce': nonce,
+        'gasPrice': price,
+        'value': deposit,
+        'data': rpcClient.utils.toHex(data1),
+        'chainId': 56,
+    };
+
+    const tx2 = {
+        'from': account1,
+        'to': account2,
+        'gas': 70000,
+        'nonce': nonce+1,
+        'gasPrice': price,
+        'value': amount,
+        'chainId': 56,
+    };
+
+    const privateKey1 = 'input your private of account1';
+    const signedTx1 = await rpcClient.eth.accounts.signTransaction(tx1, privateKey1);
+    const signedTx2 = await rpcClient.eth.accounts.signTransaction(tx2, privateKey1);
+
+    var myDate = new Date();
+    const maxTime = Math.floor(myDate.getTime() / 1000) + 80;
+    const minTime = Math.floor(myDate.getTime() / 1000) + 20;
+
+    console.log(maxTime, minTime);
+
+    const bundleArgs = {
+        'txs': [signedTx1.rawTransaction, signedTx2.rawTransaction],
+        'minTimestamp': minTime,
+        'maxTimestamp': maxTime,
+        'revertingTxHashes': [signedTx2.transactionHash],
+    };
+    const bundleHash = await directClient.eth.sendBundle(bundleArgs);
+    console.log(bundleHash);
+
+    const queryBundle = await directClient.eth.getBundleByHash(bundleHash);
+    console.log(queryBundle);
+
+    var found = false;
+    var i;
+    function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    for(i = 0; i < 30; i++) {
+        const r1 = await rpcClient.eth.getTransactionReceipt(signedTx1.transactionHash);
+        const r2 = await rpcClient.eth.getTransactionReceipt(signedTx2.transactionHash);
+        if (r1 != null && r2 != null) {
+            found = true
+            break
+        }
+        await sleep(3000)
+     }
+
+    if (found) {
+        console.log("bundle verified on chain");
+    } else {
+        console.log("bundle failed to be verified on chain or timeout");
+    }
+};
+sendBNBByBundleWithDepositCoinbaseDemo();

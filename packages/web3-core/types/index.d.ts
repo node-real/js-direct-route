@@ -160,6 +160,11 @@ export interface Bundle {
     price?: number;
 }
 
+export interface BundlePrice {
+    bundlePrice?: number;
+    minimalGasPrice?: number;
+}
+
 export interface ValidatorStatus {
     status: number;
     validators: {

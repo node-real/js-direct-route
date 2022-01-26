@@ -510,7 +510,7 @@ var Eth = function Eth() {
             name: 'getBundlePrice',
             call: 'eth_bundlePrice',
             params: 0,
-            outputFormatter: utils.hexToNumber
+            outputFormatter: formatter.outputBundlePriceFormatter
         }),
         new Method({
             name: 'getBundleByHash',
