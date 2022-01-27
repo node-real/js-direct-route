@@ -21,7 +21,7 @@
 
 
 const { callbackify } = require('util');
-var errors = require('web3-core-helpers').errors;
+var errors = require('@node-real/web3-core-helpers').errors;
 var Jsonrpc = require('./jsonrpc.js');
 var BatchManager = require('./batch.js');
 var givenProvider = require('./givenProvider.js');
