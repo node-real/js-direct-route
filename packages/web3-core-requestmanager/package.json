@@ -15,8 +15,8 @@
         "access": "public"
     },
     "dependencies": {
-        "util": "^0.12.0",
         "@node-real/web3-core-helpers": "1.0.7",
+        "util": "^0.12.0",
         "web3-providers-http": "1.5.1",
         "web3-providers-ipc": "1.5.1",
         "web3-providers-ws": "1.5.1"

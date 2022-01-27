@@ -1,6 +1,6 @@
 {
     "name": "@node-real/web3-eth",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Web3 module to interact with the Ethereum blockchain and smart contracts.",
     "repository": "https://github.com/ethereum/web3.js/tree/1.x/packages/web3-eth",
     "license": "LGPL-3.0",
@@ -17,7 +17,7 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@node-real/web3-core": "1.0.7",
+        "@node-real/web3-core": "1.0.8",
         "@node-real/web3-core-helpers": "1.0.7",
         "@node-real/web3-core-method": "1.0.7",
         "web3-core-subscriptions": "1.5.1",
