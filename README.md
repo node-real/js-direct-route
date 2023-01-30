@@ -1,3 +1,10 @@
+# ⛔️ DEPRECATED
+
+This repository is now deprecated.
+
+The Direct Route service is no longer supported.
+
+
 # JS SDK of DirectRoute
 
 ## What is Direct Route 
